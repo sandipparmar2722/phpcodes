@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+        #sp{
+            background-color: rgb(255, 0, 0);
+            font-size: large;
+            
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+   <header id="sp">
+    <nav>
+        <a href='{{ url('/home') }} '>home</a>
+        <a href="{{ url('/plan') }}">work out plan</a>
+        <a href="{{ url('/subscribe') }}">subscribe</a>
+        
+    </nav>
+   </header>
+<main>
+    @yield('pages')
+</main>
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@extends('index')
+
+@section('pages')
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>home hare</h1>
+    
+</body>
+</html>
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+@extends('index')
+
+@section('pages')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Workout Plans</title>
+    <style>
+        /* Grid container */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        /* Grid item */
+        .plan-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .plan-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .plan-card h3 {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .plan-card .price {
+            font-size: 16px;
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="grid-container">
+        <!-- Plan 1 -->
+        <div class="plan-card">
+            <img src="{{ asset('images/image.png') }}" >
+            <h3>299 plan</h3>
+            <p class="price">price:299</p>
+        </div>
+
+        <!-- Plan 2 -->
+        <div class="plan-card">
+            <img src="{{ asset('images/image.png') }}">
+            <h3>399 plan</h3>
+            <p class="price">price:399</p>
+        </div>
+
+        <!-- Plan 3 -->
+        <div class="plan-card">
+            <img src="{{ asset('images/image.png') }}" >
+            <h3>499 plan</h3>
+            <p class="price">price:499</p>
+        </div>
+
+        <!-- Add more plans as needed -->
+    </div>
+</body>
+</html>
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@extends('index')
+
+@section('pages')
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <form action="submitform" method="post">
+    @csrf
+    <label for=""> plan name</label>
+    <input type="text" id="name" name="name">
+    <br>
+    <label for=""> catagory</label>
+    <select name="catagory" id="catagory">
+        <option value="299 plan">299 plan</option>
+        <option value="399 plan">399 plan</option>
+        <option value="499 plan">499 plan</option>
+    </select>   
+    <br>
+    <label for=""> discription</label>
+    <input type="text" id="discription" name="discription">
+    <br>
+    <label for=""> duration week </label>
+    <input type="number" id="duration" name="duration">
+    <br>
+    <label for=""> price</label>
+    <input type="number" id="price" name="price">
+    <br>
+
+    <button type="submit" type="submit">submit</button>
+
+   </form>
+    
+
+ @if (session('name')&&session('catagory')&& session('discription') && session('duration') &&session('price'))
+     
+ @endif
+   <table>
+    <tr>
+        <td>plan name</td>
+        <td>catagory</td>
+        <td>discription</td>
+        <td>duration</td>
+        <td>price</td>
+    </tr>
+    <tr>
+        <td>{{ session('name') }}</td>
+        <td>{{ session('catagory') }}</td>
+        <td>{{ session('discription') }}</td>
+        <td>{{ session('duration') }}</td>
+        <td>{{ session('price') }}</td>
+    </tr>
+   </table>
+</body>
+</html>
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+Controller 
+
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class workoutplan extends Controller
+{
+    public function main(){
+        return view('index');
+    }
+    public function home(){
+        return view('home');
+    }
+    public function plan(){
+        return view('plan');
+    }
+    public function subscribe(){
+        return view('subscribe');
+    }
+    public function submit(request $request){
+        $name=$request->input('name');
+        $catagory=$request->input('catagory');
+        $discription=$request->input('discription');
+        $duration=$request->input('duration');
+        $price=$request->input('price');
+
+        return redirect('/subscribe')->with(['name'=>$name,'catagory'=>$catagory,'discription'=>$discription,'duration'=>$duration,'price'=>$price]);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+web file 
+
+
+
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\workoutplan;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/',[workoutplan::class,'main']);
+Route::get('/home',[workoutplan::class,'home']);
+Route::get('/plan',[workoutplan::class,'plan']);
+Route::get('/subscribe',[workoutplan::class,'subscribe']);
+Route::post('/submitform',[workoutplan::class, 'submit']);
